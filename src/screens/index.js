@@ -1,2 +1,3 @@
 import Splash from './Splash';
-export {Splash};
+import InsertInfo from './InsertInfo';
+export {Splash, InsertInfo};

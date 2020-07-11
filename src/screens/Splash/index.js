@@ -67,13 +67,13 @@ const styles = StyleSheet.create({
     marginTop: getHeight(27),
     color: '#fff',
     fontSize: getHeight(15),
-    fontFamily: 'Open',
+    fontFamily: 'OpenSans-Bold',
   },
   subtitle: {
     marginTop: getHeight(15),
     color: '#fff',
-    fontSize: getHeight(15),
-    fontFamily: 'Open',
+    fontSize: getHeight(16),
+    fontFamily: 'OpenSans-Bold',
   },
 });
 
