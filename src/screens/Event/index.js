@@ -49,7 +49,7 @@ export const getImgThumb = (name, width = 0, height = 0, crop = false) => {
     crop;
   return {uri: url};
 };
-export class News extends Component {
+export class Event extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -108,7 +108,7 @@ export class News extends Component {
     return (
       <View style={[styles.container]}>
         <View style={styles.containerHeader}>
-          <StatusBar backgroundColor={'red'} translucent={true} />
+          <StatusBar backgroundColor={'transparent'} translucent={true} />
           <Header
             iconLeft={Images.ic_back_black}
             title={'Tin tức'}
@@ -161,4 +161,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default News;
+export default Event;
