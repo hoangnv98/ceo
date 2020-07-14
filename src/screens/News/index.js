@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {
   getHeight,
@@ -55,6 +56,7 @@ export class News extends Component {
     super(props);
     this.state = {
       listData: {},
+      imageThumb: '',
     };
   }
 
@@ -67,13 +69,43 @@ export class News extends Component {
         this.setState({
           listData: response.data.data,
         });
-        console.log('getThumbnail', getImgThumb('s'));
-        console.log('list data : ', this.state.listData[0]);
+        console.log('list data : ', this.state.listData);
       })
       .catch((error) => {
         console.log(error);
       });
   }
+  _listNew = (element) => {
+    const imageThumb = getImgThumb(element.thumbnail, 300, 300, false);
+    return (
+      <TouchableOpacity style={styles.ItemNews}>
+        <Image source={imageThumb} style={styles.image}></Image>
+        <View style={styles.contentTitleNews}>
+          <Text style={styles.title} ellipsizeMode={'tail'} numberOfLines={2}>
+            {element.title}
+          </Text>
+          <Text
+            style={styles.subTitle}
+            ellipsizeMode={'tail'}
+            numberOfLines={3}>
+            {element.slug}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  _render_list = () => {
+    return (
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        onEndReached={this.onLoadMore}
+        onEndReachedThreshold={0.3}
+        data={this.state.listData}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => this._listNew(item)}
+      />
+    );
+  };
   render() {
     return (
       <View style={[styles.container]}>
@@ -85,46 +117,7 @@ export class News extends Component {
             // iconRight={Images.ic_back_black}
           />
         </View>
-        <View style={styles.body}>
-          <ScrollView>
-            <TouchableOpacity style={styles.ItemNews}>
-              <Image source={Images.news_1} style={styles.image}></Image>
-              <View style={styles.contentTitleNews}>
-                <Text
-                  style={styles.title}
-                  ellipsizeMode={'tail'}
-                  numberOfLines={2}>
-                  Hội nghị BCH TW Hội các nhà quản trị doanh nghiệp VN
-                </Text>
-                <Text
-                  style={styles.subTitle}
-                  ellipsizeMode={'tail'}
-                  numberOfLines={3}>
-                  Độc lập và Cộng hưởng” do Câu lạc bộ CEO-Chìa khóa thành công
-                  tổ chức với sự tham gia
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.ItemNews}>
-              <Image source={Images.news_1} style={styles.image}></Image>
-              <View style={styles.contentTitleNews}>
-                <Text
-                  style={styles.title}
-                  ellipsizeMode={'tail'}
-                  numberOfLines={2}>
-                  Hội nghị BCH TW Hội các nhà quản trị doanh nghiệp VN
-                </Text>
-                <Text
-                  style={styles.subTitle}
-                  ellipsizeMode={'tail'}
-                  numberOfLines={3}>
-                  Độc lập và Cộng hưởng” do Câu lạc bộ CEO-Chìa khóa thành công
-                  tổ chức với sự tham gia
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
+        <View style={styles.body}>{this._render_list()}</View>
       </View>
     );
   }
@@ -137,10 +130,8 @@ const styles = StyleSheet.create({
   },
   containerHeader: {
     height: getStatusBarHeight() + getHeight(50),
-    // backgroundColor: 'blue',
     borderBottomColor: '#b2b2b2',
     borderBottomWidth: 1,
-    // marginHorizontal: getHeight(3),
     marginBottom: getHeight(26),
   },
   body: {
