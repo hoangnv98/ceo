@@ -5,9 +5,9 @@ import {
   ImageBackground,
   StatusBar,
   Image,
-  TouchableOpacity,
   Text,
-  ScrollView,
+  Button,
+  TouchableOpacity,
 } from 'react-native';
 import {
   getHeight,
@@ -38,10 +38,17 @@ export class InsertInfo extends Component {
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Thêm thành viên</Text>
             <View style={styles.cardContent}>
-              <InputCustom />
-              <InputCustom />
-              <InputCustom />
+              <InputCustom textInput={'NGUYỄN VIỆT HOÀNG'} />
+              <InputCustom textInput={'nviethoang98@gmail.com'} input={''} />
+              <InputCustom placeholder={'Số điện thoại*'} />
+              <InputCustom placeholder={'Chức vụ'} />
+              <InputCustom placeholder={'Tên doanh nghiệp'} />
+              <InputCustom placeholder={'Mật khẩu'} />
+              <InputCustom placeholder={'Nhập lại mật khẩu'} />
             </View>
+            <TouchableOpacity style={styles.cardBottom}>
+              <Text style={styles.textFinish}>Xong</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -82,6 +89,7 @@ const styles = StyleSheet.create({
     height: getHeight(555),
     borderRadius: 15,
     width: ScreenWidth - getWidth(34),
+    flexDirection: 'column',
   },
   cardTitle: {
     textAlign: 'center',
@@ -94,6 +102,21 @@ const styles = StyleSheet.create({
   cardContent: {
     position: 'absolute',
     top: 100,
+    flexDirection: 'column',
+  },
+  cardBottom: {
+    position: 'absolute',
+    bottom: getHeight(23),
+    width: '88%',
+    marginHorizontal: getWidth(20),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fec32b',
+    height: getHeight(40),
+    borderRadius: 5,
+  },
+  textFinish: {
+    color: '#fff8ea',
   },
 });
 

@@ -20,13 +20,13 @@ export class Header extends Component {
     return (
       <View style={styles.header}>
         <TouchableOpacity style={styles.left}>
-          <Image source={this.props.iconLeft}></Image>
+          <Image source={this.props.iconLeft} style={styles.image}></Image>
         </TouchableOpacity>
         <TouchableOpacity style={styles.center}>
           <Text style={styles.center}>{this.props.title}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.right}>
-          <Image source={this.props.iconRight}></Image>
+          <Image source={this.props.iconRight} style={styles.image}></Image>
         </TouchableOpacity>
       </View>
     );
@@ -43,13 +43,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   left: {
-    left: getWidth(10),
+    left: getWidth(5),
+  },
+  image: {
+    width: getWidth(24),
+    height: getHeight(24),
+    resizeMode: 'contain',
   },
   center: {
-    color: '#fff',
+    color: '#3a3936',
     fontSize: getHeight(16),
     fontFamily: 'OpenSans-Bold',
-    textTransform: 'uppercase',
   },
   right: {
     right: getWidth(10),

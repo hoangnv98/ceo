@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {Splash, InsertInfo} from '@screens';
+import {Splash, InsertInfo, News} from '@screens';
 export default function App() {
-  return <InsertInfo />;
+  return <News />;
 }

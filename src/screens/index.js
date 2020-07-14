@@ -1,3 +1,4 @@
 import Splash from './Splash';
 import InsertInfo from './InsertInfo';
-export {Splash, InsertInfo};
+import News from './News';
+export {Splash, InsertInfo, News};
