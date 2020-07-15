@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {Splash, InsertInfo, News, Event} from '@screens';
+import {Splash, InsertInfo, News, History, ListMember} from '@screens';
 export default function App() {
-  return <Event />;
+  return <ListMember />;
 }
