@@ -6,7 +6,6 @@ import {
   StatusBar,
   Image,
   Text,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 import {
@@ -30,7 +29,7 @@ export class InsertInfo extends Component {
         <ImageBackground source={Images.bg_info} style={styles.imageBackground}>
           <StatusBar backgroundColor={'transparent'} translucent={true} />
           <View style={styles.imageBackground}>
-            <Image source={Images.logo} style={styles.logo}></Image>
+            <Image source={Images.logo} style={styles.logo} />
           </View>
           <Header iconLeft={Images.ic_back} />
         </ImageBackground>

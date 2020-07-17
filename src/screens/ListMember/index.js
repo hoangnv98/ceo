@@ -4,22 +4,17 @@ import {
   StyleSheet,
   StatusBar,
   Image,
-  Text,
   ScrollView,
-  TouchableOpacity,
-  FlatList,
   TextInput,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
-import {
-  getHeight,
-  getWidth,
-  getStatusBarHeight,
-  ScreenWidth,
-  ScreenHeight,
-} from '@common';
+import {getHeight, getWidth, getStatusBarHeight, ScreenWidth} from '@common';
 import axios from 'axios';
 import {Images} from '@config';
-import {Header, InputCustom} from '@components';
+import {Header} from '@components';
+import {FlatList} from 'react-native-gesture-handler';
 const headers = {
   'Content-Type': 'text/plain',
   'x-token':
@@ -27,63 +22,66 @@ const headers = {
 };
 const data = [
   {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
-  {money: '7.000.000', status: 1, dateTime: '22.03.2020'},
-  {money: '6.000.000', status: 2, dateTime: '24.03.2020'},
-  {money: '8.000.000', status: 1, dateTime: '28.03.2020'},
-  {money: '8.000.000', status: 2, dateTime: '28.03.2020'},
-  {money: '8.000.000', status: 0, dateTime: '28.03.2020'},
-  {money: '8.000.000', status: 0, dateTime: '28.03.2020'},
-  {money: '8.000.000', status: 0, dateTime: '28.03.2020'},
-  {money: '15.000.000', status: 0, dateTime: '28.03.2020'},
-  {money: '8.000.000', status: 0, dateTime: '28.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
+  {money: '5.000.000', status: 0, dateTime: '20.03.2020'},
 ];
+export const getImgThumb = (name, width = 0, height = 0, crop = false) => {
+  if (ScreenWidth < 360) {
+    width = parseInt(width, 10) * 0.95;
+    height = parseInt(height, 10) * 0.95;
+  } else if (ScreenWidth > 667) {
+    width = parseInt(width, 10) * 1.1;
+    height = parseInt(height, 10) * 1.1;
+  }
+  let url =
+    'https://dev.apecsoft.asia/cktc/' +
+    'image?name=' +
+    name +
+    '&width=' +
+    width +
+    '&height=' +
+    height +
+    '&crop=' +
+    crop;
+  return {uri: url};
+};
 export class ListMember extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  _renderImage = (status) => {
-    if (status == 0)
-      return (
-        <Image source={Images.img_timer_1} style={styles.imageTimer}></Image>
-      );
-    else if (status == 1)
-      return (
-        <Image source={Images.img_timer_2} style={styles.imageTimer}></Image>
-      );
-    return (
-      <Image source={Images.img_timer_3} style={styles.imageTimer}></Image>
-    );
-  };
-  checkStatus(status) {
-    if (status == 0) return <Text style={styles.subTextOwe}>Chưa đóng</Text>;
-    else if (status == 1)
-      return <Text style={styles.subTextOwe_2}>Chưa đóng</Text>;
-    return <Text style={styles.subTextOwe_3}>Đã đóng</Text>;
-  }
   componentDidMount() {
-    console.log(ScreenWidth);
+    axios
+      .post('https://dev.apecsoft.asia/cktc/api/account/list_member', data, {
+        headers: headers,
+      })
+      .then((response) => {
+        this.setState({
+          listData: response.data.data,
+        });
+        console.log('data trả về : ', this.state.listData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   _renderItem = (element) => {
-    return (
-      <View style={styles.Item}>
-        <View style={styles.contentItem}>
-          {this._renderImage(element.status)}
-          <View style={styles.textOwe}>
-            <Text style={styles.textTitleOwe}>{element.money + ' đ'}</Text>
-            {this.checkStatus(element.status)}
-          </View>
-          <Text style={styles.dateTime}>{element.dateTime}</Text>
-        </View>
-      </View>
-    );
+    return <View style={styles.containerItem}></View>;
   };
   _renderList = () => {
     return (
       <FlatList
         showsVerticalScrollIndicator={false}
-        onEndReachedThreshold={0.3}
         data={data}
+        numColumns={2}
+        onEndReachedThreshold={0.3}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => this._renderItem(item)}
       />
@@ -91,7 +89,6 @@ export class ListMember extends Component {
   };
 
   render() {
-    var data = [1, 2, 3, 4, 5, 6];
     return (
       <View style={[styles.container]}>
         <View style={styles.containerHeader}>
@@ -106,26 +103,11 @@ export class ListMember extends Component {
           <View style={styles.boxSearch}>
             <TextInput
               style={styles.textInputSearch}
-              placeholder={'Nhập thành viên cần tìm'}></TextInput>
-            <Image source={Images.ic_search} style={styles.ic_search}></Image>
+              placeholder={'Nhập thành viên cần tìm'}
+            />
+            <Image source={Images.ic_search} style={styles.ic_search} />
           </View>
-          <View style={styles.contentBody}>
-            {data.map((element, index) => {
-              const check = index % 2;
-              return (
-                <View
-                  key={index}
-                  style={[
-                    styles.itemMember,
-                    check == 1 && styles.itemMemberRight,
-                  ]}>
-                  <TouchableOpacity style={styles.button}>
-                    <Text>{element}</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
-          </View>
+          <View style={styles.contentBody}>{this._renderList()}</View>
         </View>
       </View>
     );
@@ -143,8 +125,8 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    backgroundColor: 'blue',
-    position: 'relative',
+    // position: 'relative',
+    // flexWrap: 'wrap',
   },
   boxSearch: {
     top: getHeight(21),
@@ -154,7 +136,7 @@ const styles = StyleSheet.create({
     height: getHeight(42),
     borderRadius: 5,
     flexDirection: 'row',
-    position: 'relative',
+    // position: 'relative',
     alignItems: 'center',
   },
   textInputSearch: {
@@ -171,30 +153,20 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   contentBody: {
-    position: 'absolute',
-    top: getHeight(85),
-    width: ScreenWidth - getWidth(32),
-    marginHorizontal: getWidth(16),
+    // flex: 1,
+  },
+  scrollView: {
+    marginTop: getHeight(40),
+    backgroundColor: 'red',
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  containerItem: {
     backgroundColor: 'red',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    // justifyContent: 'space-evenly',
-  },
-  itemMember: {
-    // width: (ScreenWidth - getWidth(32)) / 2,
-    width: '50%',
-    marginBottom: 10,
-    height: getHeight(205),
-    paddingRight: getWidth(10),
-  },
-  itemMemberRight: {
-    paddingRight: 0,
-    paddingLeft: getWidth(10),
-  },
-  button: {
-    backgroundColor: 'green',
-    width: '100%',
-    flex: 1,
+    width: 100,
+    height: 1,
   },
 });
 

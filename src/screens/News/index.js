@@ -5,20 +5,13 @@ import {
   StatusBar,
   Image,
   Text,
-  ScrollView,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {
-  getHeight,
-  getWidth,
-  getStatusBarHeight,
-  ScreenWidth,
-  ScreenHeight,
-} from '@common';
+import {getHeight, getWidth, getStatusBarHeight, ScreenWidth} from '@common';
 import axios from 'axios';
 import {Images} from '@config';
-import {Header, InputCustom} from '@components';
+import {Header} from '@components';
 const headers = {
   'Content-Type': 'text/plain',
   'x-token':
@@ -77,7 +70,7 @@ export class News extends Component {
     const imageThumb = getImgThumb(element.thumbnail, 300, 300, false);
     return (
       <TouchableOpacity style={styles.ItemNews}>
-        <Image source={imageThumb} style={styles.image}></Image>
+        <Image source={imageThumb} style={styles.image} />
         <View style={styles.contentTitleNews}>
           <Text style={styles.title} ellipsizeMode={'tail'} numberOfLines={2}>
             {element.title}
